@@ -145,9 +145,8 @@ ingress.networking.k8s.io/rabbitmq-ingress created
 
 ### 3.5 Explain how to secure the connection
 I never do it with lentsencrypt but I will follow the documentation regarding cert-bot and echo ingress.
-First we need to make a DNS resolution to the Ingress endpoint IP with the FQDN simple-rabbit.paymium.com. 
-Then we need a letsencrypt cert-manager to replace the nginx one.
 
+I have not enough time : make DNS resolution effective for the nginx ingrees, put a echo service behind http://simple-rabbit.paymium.com then run cert-manager to make the ACME challenge.
 ```bash
 $ wget https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
 $ kubpay apply -f cert-manager.yaml
