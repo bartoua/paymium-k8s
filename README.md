@@ -145,4 +145,6 @@ ingress.networking.k8s.io/rabbitmq-ingress created
 
 ### 3.5 Explain how to secure the connection
 I never do it with lentsencrypt but I will follow the documentation regarding cert-bot and echo ingress.
-We need an "echoserver" (service and ingress) in order to complete the letsencrypt challenge and a cert-manager compliant to letsencrypt.
+First we need to make a DNS resolution to the Ingress endpoint IP with the FQDN simple-rabbit.paymium.com. 
+Then we need an "echoserver" (service and ingress) in order to complete the letsencrypt challenge and a cert-manager compliant to letsencrypt.
+
