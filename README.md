@@ -1,6 +1,6 @@
 # paymium-k8s
 
-## 1
+## 1 Check the kubernetes cluster
 ### 1.1 Describe the command you use to connect to this cluster.
 
 As the cluster will not be used later, I made a temporary alias to connect it :
@@ -28,8 +28,8 @@ System Info:
 --- SNIP ---
 `````
 
-## 2
-### 2.1
+## 2 Setup a load balancer to expose internal services
+### 2.1 Deploy a modified Nginx controller for Scaleway Provider
 ```bash
 $ wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/scw/deploy.yaml -o deploy_nginx.yaml
 
@@ -53,7 +53,7 @@ rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
 job.batch/ingress-nginx-admission-create created
 job.batch/ingress-nginx-admission-patch created
 ```
-### 2.2
+### 2.2 Deploy a modifed version of Nginx controller
 Edit `deploy_nginx.yaml` to add the annotation `service.beta.kubernetes.io/scw-loadbalancer-use-hostname: 'true'` at line 268.
 
 ````bash
@@ -101,14 +101,14 @@ job.batch/ingress-nginx-admission-create   1/1           19s        22m
 job.batch/ingress-nginx-admission-patch    1/1           20s        22m
 ````
 
-### 2.3
+### 2.3 Could you explain our choice to prefer a hostname instead of an IP for our load balancer ?
 There are multiple reasons to use a FQDN instead of an IP.
 For me the main reason is a maintainability problem, if you use IP as main address your configs are dependants of the address stability, FQDN permits a better reliability.
 The second reason is an IP address is the main search method for crawlers looking for an open service.
 
-## 3
-### 3.1
-````bash
+## 3 RabbitMQ deployment
+### 3.1 Deploy version 1.3.0 of the RabbitMQ cluster-operator
+```bash
 $ wget https://github.com/rabbitmq/cluster-operator/releases/download/v1.3.0/cluster-operator.yml
 $ kubpay apply -f cluster-operator.yml
 namespace/rabbitmq-system created
@@ -121,7 +121,7 @@ clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebindi
 deployment.apps/rabbitmq-cluster-operator created
 ```
 
-### 3.2
+### 3.2 Deploy a RabbitMQ cluster
 ```bash
 $ kubpay apply -f rabbitmq.yaml
 rabbitmqcluster.rabbitmq.com/simple-rabbit created
@@ -133,13 +133,13 @@ spec:
   replicas: 3
 ````
 
-### 3.3
-#### 3.3.1
+### 3.3 Connect to RabbitMQ dashboard
+#### 3.3.1 Give the command to connect locally on the remote dashboard
 ```bash
 $ kubpay port-forward simple-rabbit-server-0 -n default 15672:15672
 ```
 
-#### 3.3.2
+#### 3.3.2 Retrieve the credentials and connect as an admin on Rabbitmq dashboard
 The default credentials are located here :
 ```bash
 rabbitmq@simple-rabbit-server-0:/$ cat /etc/rabbitmq/conf.d/default_user.conf
@@ -149,7 +149,7 @@ default_pass = o5lyXGsYSFEjcnactVcEuv-kItJS9gAw
 
 The password is : DpWIzfzHnDAdtCayjhujI3bEZNR/MTpX+x55Z+raR4uSCqwK5nVtdt7Fa+Fa09uy
 ![img_1.png](img_1.png)
-### 3.4
+### 3.4 Expose the rabbitmq cluster on Internet
 ```bash
 $ kubpay apply -f rabbitmq-ingress.yaml
 ingress.networking.k8s.io/rabbitmq-ingress created
