@@ -150,5 +150,5 @@ I have not enough time : make DNS resolution effective for the nginx ingrees, pu
 ```bash
 $ wget https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
 $ kubpay apply -f cert-manager.yaml
-
+$ kubpay apply -f issuer.yaml
 ```
