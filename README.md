@@ -1,14 +1,14 @@
 # paymium-k8s
 
-##1
-###1.1 Describe the command you use to connect to this cluster.
+## 1
+### 1.1 Describe the command you use to connect to this cluster.
 
 As the cluster will not be used later, I made a temporary alias to connect it :
 ````bash
 $ alias kubpay="kubectl --kubeconfig=/home/bartoua/kubeconfig_paymium"
 ````
 
-###1.2 Give a detailed output of the cluster node(s) (kubernetes version, IP, OS Image, Container runtime)
+### 1.2 Give a detailed output of the cluster node(s) (kubernetes version, IP, OS Image, Container runtime)
 
 `````bash
 $ kubpay describe nodes
@@ -28,8 +28,8 @@ System Info:
 --- SNIP ---
 `````
 
-##2
-###2.1
+## 2
+### 2.1
 ```bash
 $ wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/scw/deploy.yaml -o deploy_nginx.yaml
 
@@ -53,7 +53,7 @@ rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
 job.batch/ingress-nginx-admission-create created
 job.batch/ingress-nginx-admission-patch created
 ```
-###2.2
+### 2.2
 Edit `deploy_nginx.yaml` to add the annotation `service.beta.kubernetes.io/scw-loadbalancer-use-hostname: 'true'` at line 268.
 
 ````bash
@@ -101,12 +101,12 @@ job.batch/ingress-nginx-admission-create   1/1           19s        22m
 job.batch/ingress-nginx-admission-patch    1/1           20s        22m
 ````
 
-###2.3
+### 2.3
 There are multiple reasons to use a FQDN instead of an IP.
 For me the main reason is a maintainability problem, if you use IP as main address your configs are dependants of the address stability, FQDN permits a better reliability.
 The second reason is an IP address is the main search method for crawlers looking for an open service.
 
-##3
+## 3
 ````bash
 $ wget https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 $ kubpay apply -f cluster-operator.yml
