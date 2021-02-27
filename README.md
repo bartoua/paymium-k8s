@@ -150,5 +150,9 @@ default_pass = o5lyXGsYSFEjcnactVcEuv-kItJS9gAw
 The password is : DpWIzfzHnDAdtCayjhujI3bEZNR/MTpX+x55Z+raR4uSCqwK5nVtdt7Fa+Fa09uy
 ![img_1.png](img_1.png)
 ### 3.4
-
+```bash
+$ kubpay apply -f rabbitmq-ingress.yaml
+ingress.networking.k8s.io/rabbitmq-ingress created
+````
+![img.png](img.png)
 ### 3.5
