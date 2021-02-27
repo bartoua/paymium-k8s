@@ -107,8 +107,9 @@ For me the main reason is a maintainability problem, if you use IP as main addre
 The second reason is an IP address is the main search method for crawlers looking for an open service.
 
 ## 3
+### 3.1
 ````bash
-$ wget https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
+$ wget https://github.com/rabbitmq/cluster-operator/releases/download/v1.3.0/cluster-operator.yml
 $ kubpay apply -f cluster-operator.yml
 namespace/rabbitmq-system created
 customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
@@ -118,7 +119,35 @@ clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
 rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
 clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
 deployment.apps/rabbitmq-cluster-operator created
-$ wget https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/docs/examples/hello-world/rabbitmq.yaml
+```
+
+### 3.2
+```bash
 $ kubpay apply -f rabbitmq.yaml
 rabbitmqcluster.rabbitmq.com/simple-rabbit created
 ````
+
+To scale the node up to 3, I have to declare a ReplicaSet by adding to `rabbitmq.yaml`:
+````yaml
+spec:
+  replicas: 3
+````
+
+### 3.3
+#### 3.3.1
+```bash
+$ kubpay port-forward simple-rabbit-server-0 -n default 15672:15672
+```
+
+#### 3.3.2
+The default credentials are located here :
+```bash
+rabbitmq@simple-rabbit-server-0:/$ cat /etc/rabbitmq/conf.d/default_user.conf
+default_user = lfNQPkYhjiIFwuMaZrX1iLBteKjYpuxq
+default_pass = o5lyXGsYSFEjcnactVcEuv-kItJS9gAw
+```
+
+
+### 3.4
+
+### 3.5
