@@ -79,31 +79,17 @@ job.batch/ingress-nginx-admission-patch unchanged
 ````
 
 I check if the LoadBalancer `EXTERNAL-IP` is a FQDN instead of an IP address.
+
 ````bash
-$ kubpay get all -n ingress-nginx
-NAME                                            READY   STATUS      RESTARTS   AGE
-pod/ingress-nginx-admission-create-g55rm        0/1     Completed   0          22m
-pod/ingress-nginx-admission-patch-dd4bj         0/1     Completed   1          22m
-pod/ingress-nginx-controller-7fc74cf778-wcrxm   1/1     Running     0          22m
-
-NAME                                         TYPE           CLUSTER-IP     EXTERNAL-IP                          PORT(S)                      AGE
-service/ingress-nginx-controller             LoadBalancer   10.44.97.179   195-154-71-100.lb.fr-par.scw.cloud   80:32579/TCP,443:31038/TCP   22m
-service/ingress-nginx-controller-admission   ClusterIP      10.32.52.105   <none>                               443/TCP                      22m
-
-NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/ingress-nginx-controller   1/1     1            1           22m
-
-NAME                                                  DESIRED   CURRENT   READY   AGE
-replicaset.apps/ingress-nginx-controller-7fc74cf778   1         1         1       22m
-
-NAME                                       COMPLETIONS   DURATION   AGE
-job.batch/ingress-nginx-admission-create   1/1           19s        22m
-job.batch/ingress-nginx-admission-patch    1/1           20s        22m
+$ kubpay get service -n ingress-nginx
+NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP                          PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.44.97.179   195-154-71-100.lb.fr-par.scw.cloud   80:32579/TCP,443:31038/TCP   81m
+ingress-nginx-controller-admission   ClusterIP      10.32.52.105   <none>                               443/TCP                      81m
 ````
 
 ### 2.3 Could you explain our choice to prefer a hostname instead of an IP for our load balancer ?
 There are multiple reasons to use a FQDN instead of an IP.
-For me the main reason is a maintainability problem, if you use IP as main address your configs are dependants of the address stability, FQDN permits a better reliability.
+For me the main reason is a maintainability problem, if you use IP as main address your configs are dependants of the address stability, FQDN permits a better reliability by masking the IP.
 The second reason is an IP address is the main search method for crawlers looking for an open service.
 
 ## 3 RabbitMQ deployment
