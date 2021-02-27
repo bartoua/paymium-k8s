@@ -148,3 +148,8 @@ I never do it with lentsencrypt but I will follow the documentation regarding ce
 First we need to make a DNS resolution to the Ingress endpoint IP with the FQDN simple-rabbit.paymium.com. 
 Then we need a letsencrypt cert-manager to replace the nginx one.
 
+```bash
+$ wget https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
+$ kubpay apply -f cert-manager.yaml
+
+```
